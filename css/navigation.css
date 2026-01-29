@@ -1,0 +1,270 @@
+/* ========================================
+   Navigation Controls and Theme Selectors
+   ======================================== */
+
+/* Style for Theme selector - embedded in navigation */
+.theme-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 15px;
+}
+
+.theme-selector-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.theme-select {
+    padding: 8px 12px;
+    border: 2px solid var(--border-medium);
+    border-radius: 8px;
+    background: var(--bg-white);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    outline: none;
+}
+
+.theme-select:hover {
+    border-color: var(--primary-color);
+}
+
+.theme-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Color indicators for theme options */
+.theme-select option {
+    padding-right: 30px;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px 16px;
+}
+
+.theme-select option[value="blue"] {
+    color: #667eea;
+}
+
+.theme-select option[value="gray"] {
+    color: #718096;
+}
+
+.theme-select option[value="cyan"] {
+    color: #38b2ac;
+}
+
+.theme-select option[value="green"] {
+    color: #48bb78;
+}
+
+.theme-select option[value="lime"] {
+    color: #84cc16;
+}
+
+.theme-select option[value="red"] {
+    color: #f56565;
+}
+
+.theme-select option[value="rose"] {
+    color: #ed64a6;
+}
+
+/* Style for Mode selector - embedded in navigation */
+.mode-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0 15px;
+}
+
+.mode-toggle {
+    display: flex;
+    gap: 5px;
+    background: var(--bg-lightest-gray);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.mode-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.3s;
+}
+
+.mode-btn:hover {
+    color: var(--text-secondary);
+}
+
+.mode-btn.active {
+    background: var(--bg-white);
+    color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation areas with visual indication */
+.slideshow-container::before,
+.slideshow-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Navigation area to previous slide */
+.slideshow-container::before {
+    inset-inline-end: 0;
+    /* Right in RTL, left in LTR */
+    background: linear-gradient(to inline-start, var(--nav-overlay), transparent);
+    cursor: pointer;
+}
+
+/* Navigation area to next slide */
+.slideshow-container::after {
+    inset-inline-start: 0;
+    /* Left in RTL, right in LTR */
+    background: linear-gradient(to inline-end, var(--nav-overlay), transparent);
+    cursor: pointer;
+}
+
+body.show-nav-prev .slideshow-container::before {
+    opacity: 1;
+}
+
+body.show-nav-next .slideshow-container::after {
+    opacity: 1;
+}
+
+/* Navigation arrows */
+.nav-arrow-prev,
+.nav-arrow-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3em;
+    color: var(--arrow-color);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s, color 0.3s;
+    z-index: 1000;
+}
+
+/* Arrow to previous slide - always on physical right in RTL */
+.rtl-mode .nav-arrow-prev {
+    right: calc(50% - 500px + 20px);
+    /* Center of screen minus half of max-width plus padding */
+}
+
+/* Arrow to next slide - always on physical left in RTL */
+.rtl-mode .nav-arrow-next {
+    left: calc(50% - 500px + 20px);
+    /* Center of screen minus half of max-width plus padding */
+}
+
+/* Arrow to previous slide - always on physical left in LTR */
+.ltr-mode .nav-arrow-prev {
+    left: calc(50% - 500px + 20px);
+    /* Center of screen minus half of max-width plus padding */
+}
+
+/* Arrow to next slide - always on physical right in LTR */
+.ltr-mode .nav-arrow-next {
+    right: calc(50% - 500px + 20px);
+    /* Center of screen minus half of max-width plus padding */
+}
+
+/* On narrow screens, keep arrows at screen edges */
+@media (max-width: 1040px) {
+
+    .rtl-mode .nav-arrow-prev,
+    .ltr-mode .nav-arrow-next {
+        right: 20px;
+    }
+
+    .rtl-mode .nav-arrow-next,
+    .ltr-mode .nav-arrow-prev {
+        left: 20px;
+    }
+}
+
+.nav-arrow-prev::before {
+    content: var(--arrow-prev);
+}
+
+.nav-arrow-next::before {
+    content: var(--arrow-next);
+}
+
+body.show-nav-prev .nav-arrow-prev {
+    opacity: 1;
+}
+
+body.show-nav-next .nav-arrow-next {
+    opacity: 1;
+}
+
+.navigation-controls {
+    text-align: center;
+    padding: 20px;
+    background: var(--bg-lighter-gray);
+    border-top: 1px solid #e2e8f0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navigation-controls.visible {
+    transform: translateY(0);
+}
+
+.nav-btn {
+    background: var(--button-primary-bg);
+    color: var(--text-white);
+    border: none;
+    padding: 12px 25px;
+    margin: 0 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.nav-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.nav-btn:disabled {
+    background: var(--button-disabled-bg);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.slide-counter {
+    text-align: center;
+    color: var(--text-muted);
+    margin: 10px 0;
+    font-weight: bold;
+}
